@@ -17,4 +17,7 @@ public class test1121 {
 
 
     }
+    public void remote11(){}
+    public void remote11(){}
+    public void remote11(){}
 }
