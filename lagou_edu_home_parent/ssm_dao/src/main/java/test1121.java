@@ -17,6 +17,9 @@ public class test1121 {
 
 
     }
+    public void remote11(){}
+    public void remote121(){}
+    public void remote131(){}
     public void localTest1(){}
     public void localTest2(){}
     public void localTest3(){}
