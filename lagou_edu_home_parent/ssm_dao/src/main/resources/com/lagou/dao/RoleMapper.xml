@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lagou.dao.RoleMapper">
+
+    <select id="findAll" resultType="Role" parameterType="role">
+        select * from roles
+        <where>
+            <if test="name !=null and name !='' ">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="saveRole" parameterType="role">
+        insert into roles values (null ,#{code},#{name},#{description},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+
+    </insert>
+   
+
+    <update id="updateRole" parameterType="role">
+        update roles 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="updatedTime !=null">
+                updated_time=#{updatedTime},
+            </if>
+            <if test="name !=null and name !=''">
+                name=#{name},
+            </if>
+            <if test="code !=null and code !=''">
+                code =#{code},
+            </if>
+            <if test="description !=null and description !=''">
+                description=#{description},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id !=''">
+                id=#{id}
+            </if>
+        </where>
+
+    </update>
+
+
+    <!-- //根据角色ID查询关联菜单ID-->
+    <select id="findMenuByRoleId" parameterType="int" resultType="menu">
+
+        SELECT m.id FROM menu  m INNER JOIN role_menu_relation rm ON m.id=rm.menu_id WHERE rm.role_id=#{roleId}
+
+    </select>
+
+    <!--    //描述: 为角色分配菜单-->
+    <insert id="saveRoleMenu"
+            parameterType="com.lagou.domain.Role_menu_relation">
+        insert into role_menu_relation values(null,#{menuId},#{roleId},#{createdTime},#{updatedTime},#{createdBy},#{updatedby})
+    </insert>
+
+
+
+    <delete id="deleteRoleById" parameterType="int">
+        delete from Role_menu_relation where role_id=#{id}
+
+    </delete>
+
+
+
+
+</mapper>
